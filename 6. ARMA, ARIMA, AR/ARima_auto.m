@@ -1,66 +1,66 @@
 clc;
 clear all;
 
-N=input('Введіть довжину часового ряду: N=');% довжина часового ряду, кількість спостережень
-K=input('На скільки прогнозуємо: K=');
-A=input('Введіть параметри для генерації: \nA='); %
+N=input('Р’РІРµРґС–С‚СЊ РґРѕРІР¶РёРЅСѓ С‡Р°СЃРѕРІРѕРіРѕ СЂСЏРґСѓ: N=');% РґРѕРІР¶РёРЅР° С‡Р°СЃРѕРІРѕРіРѕ СЂСЏРґСѓ, РєС–Р»СЊРєС–СЃС‚СЊ СЃРїРѕСЃС‚РµСЂРµР¶РµРЅСЊ
+K=input('РќР° СЃРєС–Р»СЊРєРё РїСЂРѕРіРЅРѕР·СѓС”РјРѕ: K=');
+A=input('Р’РІРµРґС–С‚СЊ РїР°СЂР°РјРµС‚СЂРё РґР»СЏ РіРµРЅРµСЂР°С†С–С—: \nA='); %
 B=input('B=');
 C=input('C=');
 D=input('D=');
 t=1:N;
-YY=A*(t.^2)+B*t.*sin(t)+C.*rand(1,N)+D; % генерація часового ряду
+YY=A*(t.^2)+B*t.*sin(t)+C.*rand(1,N)+D; % РіРµРЅРµСЂР°С†С–СЏ С‡Р°СЃРѕРІРѕРіРѕ СЂСЏРґСѓ
 
-if (mod(N,2)~=0) % якщо ряд непарний
+if (mod(N,2)~=0) % СЏРєС‰Рѕ СЂСЏРґ РЅРµРїР°СЂРЅРёР№
 n=ceil(N/2)-1;
 else
 n=N/2;
 end
 
-fprintf('\nОсновні характеристики час. ряду:\n');
-YY_avg=mean(YY); % знаходчення МО
-fprintf('- МО = %.2f \n',YY_avg);
-D=cov(YY); % розрахунок дисперсії
-fprintf('- Дисперсія = %.4f \n',D);
-COR=xcorr(YY);% повертає послідовність автокореляції
-P=((t-mean(t))*(YY-mean(YY))')/sqrt(((t-mean(t))*(t-mean(t))')*((YY-mean(YY))*(YY-mean(YY))')); % Коефіцієнт кореляції Пірсона
-fprintf('- Коеф. Пірсона = %.4f \n\n',P);
+fprintf('\nРћСЃРЅРѕРІРЅС– С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё С‡Р°СЃ. СЂСЏРґСѓ:\n');
+YY_avg=mean(YY); % Р·РЅР°С…РѕРґС‡РµРЅРЅСЏ РњРћ
+fprintf('- РњРћ = %.2f \n',YY_avg);
+D=cov(YY); % СЂРѕР·СЂР°С…СѓРЅРѕРє РґРёСЃРїРµСЂСЃС–С—
+fprintf('- Р”РёСЃРїРµСЂСЃС–СЏ = %.4f \n',D);
+COR=xcorr(YY);% РїРѕРІРµСЂС‚Р°С” РїРѕСЃР»С–РґРѕРІРЅС–СЃС‚СЊ Р°РІС‚РѕРєРѕСЂРµР»СЏС†С–С—
+P=((t-mean(t))*(YY-mean(YY))')/sqrt(((t-mean(t))*(t-mean(t))')*((YY-mean(YY))*(YY-mean(YY))')); % РљРѕРµС„С–С†С–С”РЅС‚ РєРѕСЂРµР»СЏС†С–С— РџС–СЂСЃРѕРЅР°
+fprintf('- РљРѕРµС„. РџС–СЂСЃРѕРЅР° = %.4f \n\n',P);
 
-MAE_lvl=input('Введіть допустиме значення MAE: ');
+MAE_lvl=input('Р’РІРµРґС–С‚СЊ РґРѕРїСѓСЃС‚РёРјРµ Р·РЅР°С‡РµРЅРЅСЏ MAE: ');
 
 figure(1)
 [acf, lags]=autocorr(YY);
-stem(lags,acf)% будує графік функції автокореляції (корелограми)
+stem(lags,acf)% Р±СѓРґСѓС” РіСЂР°С„С–Рє С„СѓРЅРєС†С–С— Р°РІС‚РѕРєРѕСЂРµР»СЏС†С–С— (РєРѕСЂРµР»РѕРіСЂР°РјРё)
 grid on
 
 
 KK=N-K;
 Y=YY(1:KK);
-Y_fact=YY(KK+1:N); % залишаємо лише фактичні значення
+Y_fact=YY(KK+1:N); % Р·Р°Р»РёС€Р°С”РјРѕ Р»РёС€Рµ С„Р°РєС‚РёС‡РЅС– Р·РЅР°С‡РµРЅРЅСЏ
 
 figure(2)
 plot(1:KK+K,YY(1:KK+K),'--ko');
 grid on;
-legend('Час. ряд')
-title('Вихідний час. ряд')
+legend('Р§Р°СЃ. СЂСЏРґ')
+title('Р’РёС…С–РґРЅРёР№ С‡Р°СЃ. СЂСЏРґ')
 
 data=iddata(Y',[]);
 % arma
-fprintf('\n- ARMA модель\n')
-MAE_p1=MAE_lvl*2;% початкове значення mae
+fprintf('\n- ARMA РјРѕРґРµР»СЊ\n')
+MAE_p1=MAE_lvl*2;% РїРѕС‡Р°С‚РєРѕРІРµ Р·РЅР°С‡РµРЅРЅСЏ mae
 p=1;
 q=1;
 k=0;
 while MAE_p1>MAE_lvl
-    if q>16-k % 16 - макс. коеф.
+    if q>16-k % 16 - РјР°РєСЃ. РєРѕРµС„.
         p=p+1;
         q=0;
-        k=k+1; % скільки разів додаємо p
+        k=k+1; % СЃРєС–Р»СЊРєРё СЂР°Р·С–РІ РґРѕРґР°С”РјРѕ p
     end;
     sys1=armax(data,[p q]);
     p1=forecast(sys1,data,K);
     p1_znach = p1.OutputData;
     p1_first=p1_znach(1);
-        % середня абсолютна помилка
+        % СЃРµСЂРµРґРЅСЏ Р°Р±СЃРѕР»СЋС‚РЅР° РїРѕРјРёР»РєР°
     MAE_p1=0; 
     for i=1:N-KK
         MAE_p1=MAE_p1+abs(Y_fact(i)-p1_znach(i));
@@ -68,17 +68,17 @@ while MAE_p1>MAE_lvl
     MAE_p1=MAE_p1/(N-KK);
     q=q+1;
 end
-fprintf('Параметри: p=%.0f; q=%.0f\n',p,q);
+fprintf('РџР°СЂР°РјРµС‚СЂРё: p=%.0f; q=%.0f\n',p,q);
     
 figure(3)
 plot(data,'--bo',p1,'--ro')
 grid on
-legend('Часовий ряд','Прогноз')
+legend('Р§Р°СЃРѕРІРёР№ СЂСЏРґ','РџСЂРѕРіРЅРѕР·')
 title(['ARMA: p=',num2str(p),', q=',num2str(q)])
 
 % arima
-fprintf('\n- ARIMA модель\n')
-MAE_p2=MAE_lvl*2;% початкове значення mae
+fprintf('\n- ARIMA РјРѕРґРµР»СЊ\n')
+MAE_p2=MAE_lvl*2;% РїРѕС‡Р°С‚РєРѕРІРµ Р·РЅР°С‡РµРЅРЅСЏ mae
 p=1;
 q=1;
 k=0;
@@ -92,31 +92,31 @@ while MAE_p2>MAE_lvl
     p2=forecast(sys2,data,K);
     p2_znach = p2.OutputData;
     p2_first=p2_znach(1);
-        % середня абсолютна помилка
+        % СЃРµСЂРµРґРЅСЏ Р°Р±СЃРѕР»СЋС‚РЅР° РїРѕРјРёР»РєР°
     for i=1:N-KK
         MAE_p2=MAE_p2+abs(Y_fact(i)-p2_znach(i));
     end
     MAE_p2=MAE_p2/(N-KK);
     q=q+1;
 end
-fprintf('Параметри: p=%.0f; d=1; q=%.0f\n',p,q);
+fprintf('РџР°СЂР°РјРµС‚СЂРё: p=%.0f; d=1; q=%.0f\n',p,q);
     
 figure(4)
 plot(data,'--bo',p2,'--ro');
 grid on;
-legend('Час. ряд', 'прогноз')
+legend('Р§Р°СЃ. СЂСЏРґ', 'РїСЂРѕРіРЅРѕР·')
 title(['ARIMA: p=',num2str(p),', d=1, q=',num2str(q)])
 
 % ar
-fprintf('\n- AR модель\n')
-MAE_p3=MAE_lvl*2;% початкове значення mae
+fprintf('\n- AR РјРѕРґРµР»СЊ\n')
+MAE_p3=MAE_lvl*2;% РїРѕС‡Р°С‚РєРѕРІРµ Р·РЅР°С‡РµРЅРЅСЏ mae
 p=1;
 while MAE_p3>MAE_lvl  
     sys3=armax(data,[p 0]); %ar
     p3=forecast(sys3,data,K);
     p3_znach = p3.OutputData;
     p3_first=p3_znach(1);
-     % середня абсолютна помилка
+     % СЃРµСЂРµРґРЅСЏ Р°Р±СЃРѕР»СЋС‚РЅР° РїРѕРјРёР»РєР°
     MAE_p3=0; 
     for i=1:N-KK
         MAE_p3=MAE_p3+abs(Y_fact(i)-p3_znach(i));
@@ -124,15 +124,15 @@ while MAE_p3>MAE_lvl
     MAE_p3=MAE_p3/(N-KK);
     p=p+1;
 end
-fprintf('Параметр: p=%.0f\n',p);
+fprintf('РџР°СЂР°РјРµС‚СЂ: p=%.0f\n',p);
     
 figure(5)
 plot(data,'--bo',p3,'--ro');
 grid on;
-legend('Час. ряд', 'прогноз')
+legend('Р§Р°СЃ. СЂСЏРґ', 'РїСЂРѕРіРЅРѕР·')
 title(['AR: p=',num2str(p),', q=0'])
 
-fprintf('\nПОКАЗНИКИ ПОМИЛОК:\n');
+fprintf('\nРџРћРљРђР—РќРРљР РџРћРњРР›РћРљ:\n');
 fprintf('ARMA:\n');
 error_rate(Y_fact,p1_znach, K)
 
@@ -145,4 +145,4 @@ error_rate(Y_fact,p3_znach, K)
 figure(6)
 plot(KK+1:N,YY(KK+1:N),'--ko',KK+1:N,p1_znach,'-r',KK+1:N,p2_znach,'-b',KK+1:N,p3_znach,'-g');
 grid on;
-legend('Час. ряд', 'ARMA','ARIMA','AR')
+legend('Р§Р°СЃ. СЂСЏРґ', 'ARMA','ARIMA','AR')
