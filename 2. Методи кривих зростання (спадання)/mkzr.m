@@ -3,7 +3,6 @@ clc;
 
 % модель часового ряду
 %                                           |     
-%Y=[21.34 23.41 25.31 24.2 28.56 32.21 35.24   31.43 45.78 43.58 53.76 51.87 68.71 74.25 85.45]; %15
 Y=[9.9 9.0 8.8 9.7 10.1 9.1 8.9 9.9 9.7 8.3   8.0 9.3 9.2 7.8 7.3 8.7 8.6 9.9 9.5 9.7]; %20
 
 N=length(Y);% довжина часового ряду, кількість спостережень
@@ -26,6 +25,7 @@ fprintf('- Коеф. Пірсона = %.4f \n\n',P);
 figure(1)
 [acf, lags]=autocorr(Y);
 stem(lags,acf)% будує графік функції автокореляції (корелограми)
+title('Корелограма часового ряду')
 grid on
 
 if (mod (N,2)==0)
@@ -98,9 +98,9 @@ end
 end
 
 figure(2)
-% plot(1:N,Y,'ko--',1:N,yLM,'--gs'); legend('Y','yLM')
-% plot(1:N,Y,'ko--',1:N,yPM,'-.bs'); legend('Y','yPM')
-% plot(1:N,Y,'ko--',1:N,yEXP,'-r*'); legend('Y','yEXP')
+% plot(1:N,Y,'ko--',1:N,yLM,'--gs'); title('Лінійна модель'); legend('Y','yLM')
+% plot(1:N,Y,'ko--',1:N,yPM,'-.bs'); title('Параболічна модель'); legend('Y','yPM')
+% plot(1:N,Y,'ko--',1:N,yEXP,'-r*'); title('Експоненціальна модель'); legend('Y','yEXP')
 plot(1:N,Y,'ko--',1:N,yLM,'--gs',1:N,yPM,'-.bs', 1:N,yEXP,'-r*'); legend('Y','yLM','yPM', 'yEXP')
 grid on
 xlabel('час');
