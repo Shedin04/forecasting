@@ -1,33 +1,33 @@
 clc;
 clear all;
 
-N=input('Введіть довжину часового ряду: N=');% довжина часового ряду, кількість спостережень
-K=input('На скільки прогнозуємо: K=');
-A=input('Введіть параметри для генерації: \nA='); %
+N=input('Р’РІРµРґС–С‚СЊ РґРѕРІР¶РёРЅСѓ С‡Р°СЃРѕРІРѕРіРѕ СЂСЏРґСѓ: N=');% РґРѕРІР¶РёРЅР° С‡Р°СЃРѕРІРѕРіРѕ СЂСЏРґСѓ, РєС–Р»СЊРєС–СЃС‚СЊ СЃРїРѕСЃС‚РµСЂРµР¶РµРЅСЊ
+K=input('РќР° СЃРєС–Р»СЊРєРё РїСЂРѕРіРЅРѕР·СѓС”РјРѕ: K=');
+A=input('Р’РІРµРґС–С‚СЊ РїР°СЂР°РјРµС‚СЂРё РґР»СЏ РіРµРЅРµСЂР°С†С–С—: \nA='); %
 B=input('B=');
 C=input('C=');
 D=input('D=');
 t=1:N;
-YY=A*(t.^2)+B*t.*sin(t)+C.*rand(1,N)+D; % генерація часового ряду
+YY=A*(t.^2)+B*t.*sin(t)+C.*rand(1,N)+D; % РіРµРЅРµСЂР°С†С–СЏ С‡Р°СЃРѕРІРѕРіРѕ СЂСЏРґСѓ
 
-if (mod(N,2)~=0) % якщо ряд непарний
+if (mod(N,2)~=0) % СЏРєС‰Рѕ СЂСЏРґ РЅРµРїР°СЂРЅРёР№
 n=ceil(N/2)-1;
 else
 n=N/2;
 end
 
-fprintf('\nОсновні характеристики час. ряду:\n');
-YY_avg=mean(YY); % знаходчення МО
-fprintf('- МО = %.2f \n',YY_avg);
-D=cov(YY); % розрахунок дисперсії
-fprintf('- Дисперсія = %.4f \n',D);
-COR=xcorr(YY);% повертає послідовність автокореляції
-P=((t-mean(t))*(YY-mean(YY))')/sqrt(((t-mean(t))*(t-mean(t))')*((YY-mean(YY))*(YY-mean(YY))')); % Коефіцієнт кореляції Пірсона
-fprintf('- Коеф. Пірсона = %.4f \n\n',P);
+fprintf('\nРћСЃРЅРѕРІРЅС– С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё С‡Р°СЃ. СЂСЏРґСѓ:\n');
+YY_avg=mean(YY); % Р·РЅР°С…РѕРґС‡РµРЅРЅСЏ РњРћ
+fprintf('- РњРћ = %.2f \n',YY_avg);
+D=cov(YY); % СЂРѕР·СЂР°С…СѓРЅРѕРє РґРёСЃРїРµСЂСЃС–С—
+fprintf('- Р”РёСЃРїРµСЂСЃС–СЏ = %.4f \n',D);
+COR=xcorr(YY);% РїРѕРІРµСЂС‚Р°С” РїРѕСЃР»С–РґРѕРІРЅС–СЃС‚СЊ Р°РІС‚РѕРєРѕСЂРµР»СЏС†С–С—
+P=((t-mean(t))*(YY-mean(YY))')/sqrt(((t-mean(t))*(t-mean(t))')*((YY-mean(YY))*(YY-mean(YY))')); % РљРѕРµС„С–С†С–С”РЅС‚ РєРѕСЂРµР»СЏС†С–С— РџС–СЂСЃРѕРЅР°
+fprintf('- РљРѕРµС„. РџС–СЂСЃРѕРЅР° = %.4f \n\n',P);
 
 figure(1)
 [acf, lags]=autocorr(YY);
-stem(lags,acf)% будує графік функції автокореляції (корелограми)
+stem(lags,acf)% Р±СѓРґСѓС” РіСЂР°С„С–Рє С„СѓРЅРєС†С–С— Р°РІС‚РѕРєРѕСЂРµР»СЏС†С–С— (РєРѕСЂРµР»РѕРіСЂР°РјРё)
 grid on
 
 KK=N-K;
@@ -36,12 +36,12 @@ Y=YY(1:KK);
 figure(2)
 plot(1:KK+K,YY(1:KK+K),'--ko');
 grid on;
-legend('Час. ряд')
-title('Вихідний час. ряд')
+legend('Р§Р°СЃ. СЂСЏРґ')
+title('Р’РёС…С–РґРЅРёР№ С‡Р°СЃ. СЂСЏРґ')
 
 % arma
-fprintf('- ARMA модель\n')
-p=input('Введіть параметри:\np=');
+fprintf('- ARMA РјРѕРґРµР»СЊ\n')
+p=input('Р’РІРµРґС–С‚СЊ РїР°СЂР°РјРµС‚СЂРё:\np=');
 q=input('q=');
 data=iddata(Y',[]);
 sys1=armax(data,[p q]);
@@ -51,12 +51,12 @@ p1_znach = p1.OutputData;
 figure(3)
 plot(data,'--bo',p1,'--ro')
 grid on
-legend('Часовий ряд','Прогноз')
+legend('Р§Р°СЃРѕРІРёР№ СЂСЏРґ','РџСЂРѕРіРЅРѕР·')
 title(['ARMA: p=',num2str(p),', q=',num2str(q)])
 
 %ARIMA%
-fprintf('\n- ARIMA модель\n')
-p=input('Введіть параметри:\np=');
+fprintf('\n- ARIMA РјРѕРґРµР»СЊ\n')
+p=input('Р’РІРµРґС–С‚СЊ РїР°СЂР°РјРµС‚СЂРё:\np=');
 q=input('q=');
 sys2=armax(data,[4 5],'IntegrateNoise',1); %arima
 p2=forecast(sys2,data,K);
@@ -65,12 +65,12 @@ p2_znach = p2.OutputData;
 figure(4)
 plot(data,'--bo',p2,'--ro');
 grid on;
-legend('Час. ряд', 'прогноз')
+legend('Р§Р°СЃ. СЂСЏРґ', 'РїСЂРѕРіРЅРѕР·')
 title(['ARIMA: p=',num2str(p),', d=1, q=',num2str(q)])
 
 %AR%
-fprintf('\n- AR модель\n')
-p=input('Введіть параметр: p=');
+fprintf('\n- AR РјРѕРґРµР»СЊ\n')
+p=input('Р’РІРµРґС–С‚СЊ РїР°СЂР°РјРµС‚СЂ: p=');
 sys3=armax(data,[p 0]); %ar
 p3=forecast(sys3,data,K);
 p3_znach = p3.OutputData;
@@ -78,11 +78,11 @@ p3_znach = p3.OutputData;
 figure(5)
 plot(data,'--bo',p3,'--ro');
 grid on;
-legend('Час. ряд', 'прогноз')
+legend('Р§Р°СЃ. СЂСЏРґ', 'РїСЂРѕРіРЅРѕР·')
 title(['AR: p=',num2str(p)])
 
-Y_fact=YY(KK+1:N); % залишаємо лише фактичні значення
-fprintf('\nПОКАЗНИКИ ПОМИЛОК:\n');
+Y_fact=YY(KK+1:N); % Р·Р°Р»РёС€Р°С”РјРѕ Р»РёС€Рµ С„Р°РєС‚РёС‡РЅС– Р·РЅР°С‡РµРЅРЅСЏ
+fprintf('\nРџРћРљРђР—РќРРљР РџРћРњРР›РћРљ:\n');
 fprintf('ARMA:\n');
 error_rate(Y_fact,p1_znach, K)
 
@@ -95,4 +95,4 @@ error_rate(Y_fact,p3_znach, K)
 figure(6)
 plot(KK+1:N,YY(KK+1:N),'--ko',KK+1:N,p1_znach,'-r',KK+1:N,p2_znach,'-b',KK+1:N,p3_znach,'-g');
 grid on;
-legend('Час. ряд', 'ARMA','ARIMA','AR')
+legend('Р§Р°СЃ. СЂСЏРґ', 'ARMA','ARIMA','AR')
