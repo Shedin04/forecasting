@@ -35,9 +35,9 @@ for i=(n):N-1
      Y_nm3(i+1-n)=Y(i)*(Y(i)/Y(i-1));
 end
 
-fprintf('Наївна модель:\nY"(t+1)=Y(t)\n');
-fprintf('\nНаївна модель (мод. 1):\nY"(t+1)=Y(t)+(Y(t)-Y(t-1))\n');
-fprintf('\nНаївна модель (мод. 2):\nY"(t+1)=Y(t)*(Y(t)/Y(t-1))\n');
+fprintf('Наївна модель:\n Y"(t+1)=Y(t)\n');
+fprintf('\nНаївна модель (мод. 1):\n Y"(t+1)=Y(t)+(Y(t)-Y(t-1))\n');
+fprintf('\nНаївна модель (мод. 2):\n Y"(t+1)=Y(t)*(Y(t)/Y(t-1))\n');
 
 figure(2)
 % plot(t,Y,'-kp',(n+1:N),Y_nm,'-b*'); legend('Y','Ynaiv')
