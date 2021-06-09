@@ -25,6 +25,7 @@ fprintf('- Коеф. Пірсона = %.4f \n\n',P);
 figure(1)
 [acf, lags]=autocorr(Y);
 stem(lags,acf)% будує графік функції автокореляції (корелограми)
+title('Корелограма часового ряду')
 grid on
 
 % Наївна модель %
@@ -33,6 +34,10 @@ for i=(n):N-1
      Y_nm2(i+1-n)=Y(i)+(Y(i)-Y(i-1));
      Y_nm3(i+1-n)=Y(i)*(Y(i)/Y(i-1));
 end
+
+fprintf('Наївна модель:\n Y"(t+1)=Y(t)\n');
+fprintf('\nНаївна модель (мод. 1):\n Y"(t+1)=Y(t)+(Y(t)-Y(t-1))\n');
+fprintf('\nНаївна модель (мод. 2):\n Y"(t+1)=Y(t)*(Y(t)/Y(t-1))\n');
 
 figure(2)
 % plot(t,Y,'-kp',(n+1:N),Y_nm,'-b*'); legend('Y','Ynaiv')
@@ -43,7 +48,7 @@ grid on
 xlabel('час');
 ylabel('Y');
 
-fprintf('\nПОКАЗНИКИ ПОМИЛОК:\n');
+fprintf('\n\nПОКАЗНИКИ ПОМИЛОК:\n\n');
 fprintf('Наївна модель:\n');
 error_rate(Y,Y_nm)
 
