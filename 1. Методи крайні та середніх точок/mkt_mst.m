@@ -25,6 +25,7 @@ fprintf('- Коеф. Пірсона = %.4f \n\n',P);
 figure(1)
 [acf, lags]=autocorr(Y);
 stem(lags,acf)% будує графік функції автокореляції (корелограми)
+title('Корелограма часового ряду')
 grid on
 
 % МЕТОД КРАЙНІХ ТОЧОК
@@ -50,8 +51,8 @@ fprintf('a0 = %.4f \n',a0);
 Y2=a0+a1*t; % реалізація моделі прогнозування
 
 figure(2)
-% plot(t,Y,'-kp',t,Y1,'-.rs'); legend('Y','YmKT')
-% plot(t,Y,'-kp',t,Y2,'-b*'); legend('Y','YmST')
+% plot(t,Y,'-kp',t,Y1,'-.rs'); title('Метод крайніх точок'); legend('Y','YmKT')
+% plot(t,Y,'-kp',t,Y2,'-b*'); title('Метод середніх точок'); legend('Y','YmST')
 plot(t,Y,'-kp',t,Y1,'-.rs',t,Y2,'-b*'); legend('Y','YmKT','YmST')
 grid on
 xlabel('час');
